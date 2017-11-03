@@ -1,0 +1,49 @@
+<style>
+.country { height: 500px; overflow: auto; width: 100%; }
+.loading { color: red; }
+li {font-size:24px;}
+#loading { display:none; color:red; font-size:30px; }
+</style>
+<div class="country">
+
+  <table border='1' id="results" width="100%">
+<tr><th>CID</th><th>C-TEMP</th><th>C-TIME</th></tr>
+  </table>
+    
+</div>
+ <span id="loading">Loading Please wait...</span>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+$(function() {
+   loadResults(0);
+    $('.country').scroll(function() {
+      if($("#loading").css('display') == 'none') {
+        if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+           var limitStart = $("#results").length;
+           loadResults(limitStart); 
+        }
+      }
+	}); 
+
+function loadResults(limitStart) {
+	$("#loading").show();
+    $.ajax({
+        url: "request.php",
+        type: "post",
+        dataType: "json",
+        data: {
+            limitStart: limitStart
+        },
+        success: function(data) {
+               $.each(data, function(index, value1) {
+                
+               //$("#results").append("<li id='"+index+"'>"+index+" - "+value1['temp']+" - "+value1['cuti']+"</li>");
+
+               $("#results").append("<tr><td>"+index+"</td><td>"+value1['temp']+"</td><td>"+value1['cuti']+"</td><tr>");
+             });
+             $("#loading").hide();     
+        }
+    });
+};
+});
+</script>
