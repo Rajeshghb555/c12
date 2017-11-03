@@ -3,7 +3,7 @@
 $hostname = "localhost";
 $username = "root";
 $password = "";
-$dbname = "consightdev";
+$dbname = "yourdb";
 $limitStart = $_POST['limitStart'];
 $limitCount = 100;
 if(isset($limitStart ) || !empty($limitStart)) {
